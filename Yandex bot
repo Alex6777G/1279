@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Yandex bot
+// @name         Ya bot
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -14,53 +14,42 @@ function getRandom(min,max){
 }
 
 let keywords = ["Гобой","Саксофон","Валторна","Фагот","Флейта","Как звучит флейта","Скрипка"];
-let keywort = keywords[getRandom(0, keywords.length)];
-let yainput = document.getElementsByName("text")[0];
-let links = document.links;
+let keyword = keywords[getRandom(0, keywords.length)];
+let yainput = document.getElementById("text");
 let btnK = document.getElementsByClassName("button mini-suggest__button button_theme_websearch button_size_ws-head i-bem button_js_inited")[0];
-if (btnK != undefined){
-  let i = 0;
-  let timerId = setInterval(()=>{
-        yainput.value+=keywort[i++];
-        if(i == keywort.length){
+let links = document.links;
+if (yainput != null){
+    let i = 0;
+    let timerId = setInterval(()=>{
+        yainput.value += keyword[i++];
+        if(i == keyword.length){
             clearInterval(timerId);
-               btnK.click();
+            btnK.click();
 
         }
-
-
-                },500)
-
-}else if(location.hostname == "https://yandex.ru/"){
-    let links = document.links;
+    },500);
+}else if(location.hostname == "yandex.ru"){
     let flag = true;
-    let numPage = document.getElementsByClassName("pager__item pager__item_current_yes pager__item_kind_page")[0].innerText;
+
     for(let i=0; i<links.length; i++){
         let link = links[i];
         if(link.href.indexOf("xn----7sbab5aqcbiddtdj1e1g.xn--p1ai") != -1){
             flag = false;
-          link.removeAttribute('target');
-            link.click();
+            link.removeAttribute('target');
             setTimeout(()=>link.click(), 2000);
             break;
         }
     }
-
-     if (numPage == "10"){ location.href = "https://yandex.ru/*";}
-     if(flag){
-         let a = document.getElementsByClassName("link link_theme_none link_target_serp pager__item pager__item_kind_next i-bem link_js_inited")[0];
-
-       setTimeout(()=> a.click(), 2000);}
-
-  }else{
+    let numPage = document.getElementsByClassName("pager__item pager__item_current_yes pager__item_kind_page")[0].innerText;
+    if (numPage == "10") location.href = "https://yandex.ru/";
+    let nxt = document.getElementsByClassName("pager__item_kind_next")[0];
+    if(flag) setTimeout(()=>nxt.click(),2000);
+}else{
     if(getRandom(0,100)>=80) location.href = "https://yandex.ru/";
-else{
+    else{
         setInterval(()=>{
-      let link = links[getRandom(0,links.length)];
-      if(link.href.indexOf(location.hostname) != -1);
-      link.click()
-        },5000);
-        }
-
-
-  }
+            let link = links[getRandom(0,links.length)];
+            if(link.href.indexOf(location.hostname) != -1){
+                link.click();}
+        },5000);}
+}
