@@ -43,6 +43,7 @@
           balance.innerText = money.value;
           progressBar.hidden = false;
           info.innerText = "Напиток готовится, ожидайте..."
+          block.style.height = "100vh";
           let timerId = setInterval(()=>{
             progressCount++;
             progressBar.style.width = progressCount+"%";
@@ -61,6 +62,7 @@
               progressBar.hidden = true;
               progressBar.style.width = 0+"%";
               progressCount = 0;
+              block.style.height = "0vh";
               clearInterval(timerId);
               cup.style.opacity = 1;
             }
@@ -75,13 +77,25 @@
       
       function getChange(num){
         let coin;
-        if(num>=10) coin = 10;
-        else if(num>=5) coin = 5;
-        else if(num>=2) coin = 2;
-        else if(num>=1) coin = 1;
+
+        let left = getRandom(0,change_box.getBoundingClientRect().width-60);
+        let top = getRandom(0,change_box.getBoundingClientRect().height-60);
+        if(num>=10){ coin = 10; }
+        else if(num>=5) {coin = 5;}
+        else if(num>=2){ coin = 2;}
+        else if(num>=1){ coin = 10;}
         
         if(coin>0){
-          change_box.innerHTML += `<img src="/img/${coin}rub.png">`;
+          change_box.innerHTML += `<img style="left:${left}px; top:${top}px" src="/img/${coin}rub.png" onclick= "this.hidden=true">`;
           getChange(num-coin);
+          
+        }else{ 
+          money.value = 0;
+          balance.innerText = money.value;
+          let audio = new Audio("http://1279.vozhzhaev.ru/audio/03927.mp3");
+          audio.play();
         }
       }
+       function getRandom(min,max){
+        return  Math.random()*(max-min)+min;
+       }
