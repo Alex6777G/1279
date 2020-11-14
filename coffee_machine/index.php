@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="ru">
   <head>
@@ -16,7 +14,7 @@
     <title>Кофемашина</title>
   </head>
   <body>
-    
+    <div id="block"></div>
     <div class="container my-5 rounded" style="background: rgb(139,69,19,.5);">
       <div class="row">
         <div class="col-sm-6">
@@ -71,7 +69,7 @@
       <img src="img/100rub.jpg" alt="" data-value="100">
       <img src="img/500rub.jpg" alt="" data-value="500">
     </div>
-    <script src ="/js/script.js"></script>
+    <script src ="/js/script2.js"></script>
 
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
